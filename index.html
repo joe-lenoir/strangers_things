@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="app.js" defer type="module"></script>
+    <script src="posts.js" defer type="module"></script>
+    <title>Strangers' Things</title>
+</head>
+<body>
+    <header>Strangers' Things</header>
+    <div id="auth_form"></div>
+    <div class="new-post-box">
+        <form id="new-post-form">
+            <h2 id="new-post-h2">create a post:</h2>
+            <label class="make-post">Title
+                <input type="text" id="title" name="title" required/>
+            </label>
+            <label class="make-post">Description
+                <input type="text" id="description" name="description" required/>
+            </label>
+            <label class="make-post">Price
+                <input type="text" id="price" name="price" required/>
+            </label>
+            <label class="make-post">Location
+                <input type="text" id="location" name="location"/>
+            </label class="make-post" >
+            <input type="checkbox" id="will-deliver" name="will-deliver"/>
+            <button>I Will Deliver</button>
+            <button id="submit-post">submit</button>
+        </form> 
+    </div>
+    <div id="posts"></div>
+</body>
+</html>
