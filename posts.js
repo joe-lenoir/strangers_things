@@ -1,9 +1,9 @@
 // You should make a form for users to make new listings. The fields for the form should match the fields that the API expects, and the submit button should be intercepted so that you can create the right fetch request.
 
-//import {  } from "./auth.js";
+//import {  } from "./app.js";
 //import {  } from "./auth.js";
 
-allPosts = {
+const allPosts = {
     title: "example post title",
     description: "example post description",
     price: "$0.00",
@@ -17,10 +17,14 @@ $("#new-post-form").submit( async (event) => {
 
   const postObj = createPostObjFromForm();
   console.log(postObj);
-  const response = await createPostAPI(postObj);
-  //next: render the new posts
-  //renderPosts();
+  const response = await createPostAPI(postObj, localStorage.getItem("token"));
+
+
+ //add new post in response to state (the array of posts)
+ //re-render the array of posts in state
 } )
+
+
 
 function createPostObjFromForm(){
     const title = $("#title").val();
@@ -44,17 +48,48 @@ function createPostObjFromForm(){
 return post;
 }
 
-async function createPostAPI(postObj){
-    //fetch, create post, return
+async function createPostAPI(postObj, token){
+    return fetch('https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          post: postObj
+        })
+      }).then(response => response.json())
+        .then(result => {
+          console.log(result);
+          return result;
+        })
+        .catch(console.error);   //fetch, create post, return
 }
 
-// function renderPosts() {
-//     $("#new-post-form.content").empty();
+function getPosts(){
+  return fetch('https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts')
+  .then(response => response.json())
+  .then(result => {
+    console.log(result);
+    return result;
+  })
+  .catch(console.error);
+}
 
-//     allPosts.forEach(function (postObj) {
-//       const postElement = createPostObjFromForm(postObj);
-//         $("#posts").append(postObj);
-//       }
-//   };
-  
-//   renderPosts();
+function renderPosts(posts) {
+    $("#posts").empty();
+
+    posts.forEach(function (postObj) {
+      const postElement = buildPostElement(postObj);
+        $("#posts").append(postElement);
+    })
+};
+
+  renderPosts();
+
+  function buildPostElement(){
+      //see API docs, include location, willDeliver, price, location 
+      //see art collector project renderEntities/buildElement function, forEach callback
+  }
+
+  //bootstrap function that calls getPosts, stores posts in state, renders posts that are in state
