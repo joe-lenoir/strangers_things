@@ -4,92 +4,219 @@
 //import {  } from "./auth.js";
 
 const allPosts = {
-    title: "example post title",
-    description: "example post description",
-    price: "$0.00",
-    location: "example post location",
-    willDeliver: null,
-}
+  title: "example post title",
+  description: "example post description",
+  price: "$0.00",
+  location: "example post location",
+  willDeliver: null,
+};
 
-$("#new-post-form").submit( async (event) => {
+$("#new-post-form").submit(async (event) => {
   event.preventDefault();
   console.log("form submitted");
 
   const postObj = createPostObjFromForm();
   console.log(postObj);
   const response = await createPostAPI(postObj, localStorage.getItem("token"));
-
-
- //add new post in response to state (the array of posts)
- //re-render the array of posts in state
-} )
-
-
-
-function createPostObjFromForm(){
-    const title = $("#title").val();
-    const description = $("#description").val();
-    const price = $("#price").val();
-    const location = $("#location").val();
-    const willDeliver = $("#will-deliver").prop("checked");
-    console.log(willDeliver);
-
-    const post = {
-        title,
-        description,
-        price,
-        willDeliver
-    }
-
-    if (location.length !== 0){
-        post.location = location
-    }
-
-return post;
-}
-
-async function createPostAPI(postObj, token){
-    return fetch('https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          post: postObj
-        })
-      }).then(response => response.json())
-        .then(result => {
-          console.log(result);
-          return result;
-        })
-        .catch(console.error);   //fetch, create post, return
-}
-
-function getPosts(){
-  return fetch('https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts')
-  .then(response => response.json())
-  .then(result => {
-    console.log(result);
-    return result;
-  })
-  .catch(console.error);
-}
-
-function renderPosts(posts) {
-    $("#posts").empty();
-
-    posts.forEach(function (postObj) {
-      const postElement = buildPostElement(postObj);
-        $("#posts").append(postElement);
-    })
-};
-
-  renderPosts();
-
-  function buildPostElement(){
-      //see API docs, include location, willDeliver, price, location 
-      //see art collector project renderEntities/buildElement function, forEach callback
+  if (response.success) {
+    $("#posts").append(buildPostElement(response.data.post));
+    $("#title").val("");
+    $("#description").val("");
+    $("#price").val("");
+    $("#location").val("");
+    $("#will-deliver").prop("checked", false); //see if that works
+  } else {
+    $("#error-message").html("Sign in to create a post.");
   }
 
-  //bootstrap function that calls getPosts, stores posts in state, renders posts that are in state
+  //add new post in response to state (the array of posts)
+  //re-render the array of posts in state
+});
+
+function createPostObjFromForm() {
+  const title = $("#title").val();
+  const description = $("#description").val();
+  const price = $("#price").val();
+  const location = $("#location").val();
+  const willDeliver = $("#will-deliver").prop("checked");
+  console.log(willDeliver);
+
+  const post = {
+    title,
+    description,
+    price,
+    willDeliver,
+  };
+
+  if (location.length !== 0) {
+    post.location = location;
+  }
+
+  return post;
+}
+
+async function createPostAPI(postObj, token) {
+  return fetch(
+    "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        post: postObj,
+      }),
+    }
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      return result;
+    })
+    .catch(console.error);
+}
+
+function getPosts() {
+  return fetch(
+    "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts"
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      return result;
+    })
+    .catch(console.error);
+}
+
+//ATTEMPT TO CHECK FOR USER TOKEN (WORK INTO getPosts ABOVE?)
+// async function getPosts(token) {
+//   try {
+//     const response = await fetch(
+//     "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts",
+//     token
+//       ? {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       }
+//       : {}
+//   );
+
+//       const parsedJson = await response.json();
+//       console.log(parsedJson);
+//       return parsedJson.data.posts;
+//     } catch(error){
+//       console.error;
+//     }
+
+async function renderPosts() {
+  $("#posts").empty();
+
+  const result = await getPosts();
+  const posts = result.data.posts;
+
+  posts.forEach(function (postObj) {
+    const postElement = buildPostElement(postObj);
+    $("#posts").prepend(postElement);
+  });
+}
+
+renderPosts();
+
+function buildPostElement(postObj) {
+  return `<div class="newPost">
+    <div id="post-title">${postObj.title}</div>
+    <div id="description">${postObj.description}</div>
+    <div id="price">Price: ${postObj.price}</div>
+    <div id="location">Location: ${postObj.location}</div>
+    <div id="willDeliver">Will deliver: ${postObj.willDeliver}</div>
+    <button id="delete-post">Delete Post</button>
+    <div id="message"></div>
+  </div>`;
+}
+
+//delete post click handler
+$("#delete-post button").click(function () {
+  deletePost();
+});
+
+// if isAuthor === true {
+//   delete post
+// }
+// else {
+//   $("#message").text("You can only delete your own posts");
+// }
+
+//bootstrap function that calls getPosts, stores posts in state, renders posts that are in state
+
+//have not tested this one yet, just pulled it from api docs for later use
+async function editPost(postObj, token) {
+  return fetch(
+    "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts/POST_ID",
+    //not sure if that /POST_ID is what is needed or is a placeholder from the api docs
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        post: postObj,
+      }),
+    }
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      //return result;
+    })
+    .catch(console.error);
+}
+
+//have not tested this one yet, just pulled it from api docs for later use
+async function deletePost(postObj, token) {
+  return fetch(
+    "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts/POST_ID",
+    //not sure if that /POST_ID is what is needed or is a placeholder from the api docs
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      //return result;
+    })
+    .catch(console.error);
+}
+
+//have not tested this one yet, just pulled it from api docs for later use
+async function sendPostMessage(token) {
+  return fetch(
+    "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts/POST_ID/messages",
+    //not sure if that /POST_ID/messages is what is needed or is a placeholder from the api docs
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        message: {
+          content: "Do you still have this? Would you take $10 less?",
+        },
+      }),
+    }
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      //return result;
+    })
+    .catch(console.error);
+}

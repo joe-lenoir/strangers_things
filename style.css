@@ -16,12 +16,15 @@ header {
     justify-content: center;
     flex-grow: 3;
     font-size: 40px;
-    border: solid;
-    border-color: darkgray;
+    border: solid #2707F1;
     border-right: none;
     border-left: none;
     color: #2707F1;
     font-style: arial;
+    background-color: orangered;
+    text-shadow: 1px 1px lightgray;
+    padding: 10px;
+    
 }
 
 aside {
@@ -36,7 +39,8 @@ aside {
 }
 
 #toggle_form h2 {
-   color: black;
+   color: #2707F1;
+   text-shadow: 1px 1px orangered;
 }
 
 #toggle_form button {
@@ -58,6 +62,8 @@ aside {
 
 #new-post-h2 {
     font-size: 20px;
+    color: #2707F1;
+    text-shadow: 1px 1px orangered;
 }
 
 .make-post {
@@ -75,4 +81,37 @@ aside {
     background-color: #2707F1;
     color: white;
     margin: 5px;
+}
+
+#error-message {
+    color: red;
+}
+
+.newPost {
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+    border: inset #2707F1;
+}
+
+#post-title {
+    font-size: 20px;
+    font-weight: bolder;
+    color: #2707F1;
+}
+
+#description {
+
+}
+
+#price {
+
+}
+
+#location {
+
+}
+
+#willDeliver {
+
 }

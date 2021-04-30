@@ -99,8 +99,8 @@ function loginUser(username, password) {
 }
 
 const authHeadlines = {
-  login: "sign in:",
-  register: "sign up:"
+  login: "Sign in:",
+  register: "Sign up:"
 };
 
 const authBylines = {
