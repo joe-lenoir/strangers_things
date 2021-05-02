@@ -19,7 +19,7 @@ $("#new-post-form").submit(async (event) => {
   console.log(postObj);
   const response = await createPostAPI(postObj, localStorage.getItem("token"));
   if (response.success) {
-    $("#posts").append(buildPostElement(response.data.post));
+    $("#posts").prepend(buildPostElement(response.data.post));
     $("#title").val("");
     $("#description").val("");
     $("#price").val("");
@@ -102,7 +102,6 @@ function getPosts() {
 //       }
 //       : {}
 //   );
-
 //       const parsedJson = await response.json();
 //       console.log(parsedJson);
 //       return parsedJson.data.posts;
@@ -131,15 +130,11 @@ function buildPostElement(postObj) {
     <div id="price">Price: ${postObj.price}</div>
     <div id="location">Location: ${postObj.location}</div>
     <div id="willDeliver">Will deliver: ${postObj.willDeliver}</div>
-    <button id="delete-post">Delete Post</button>
+    <button id="send-post-message">Send Message</button>
+    <button id="delete-post">I posted this and want to delete it</button>
     <div id="message"></div>
   </div>`;
 }
-
-//delete post click handler
-$("#delete-post button").click(function () {
-  deletePost();
-});
 
 // if isAuthor === true {
 //   delete post
@@ -178,7 +173,7 @@ async function editPost(postObj, token) {
 async function deletePost(postObj, token) {
   return fetch(
     "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts/POST_ID",
-    //not sure if that /POST_ID is what is needed or is a placeholder from the api docs
+    //not sure if that /POST_ID is what is needed or is a placeholder
     {
       method: "DELETE",
       headers: {
@@ -194,6 +189,11 @@ async function deletePost(postObj, token) {
     })
     .catch(console.error);
 }
+
+$("#delete-post").click(function (event) {
+    console.log("so you want to delete a post eh?")
+    //deletePost();
+  });
 
 //have not tested this one yet, just pulled it from api docs for later use
 async function sendPostMessage(token) {
@@ -220,3 +220,8 @@ async function sendPostMessage(token) {
     })
     .catch(console.error);
 }
+
+$("#send-post-message").click(function (event) {
+  console.log("sending message");
+  //sendPostMessage();
+});

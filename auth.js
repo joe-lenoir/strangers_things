@@ -104,8 +104,8 @@ const authHeadlines = {
 };
 
 const authBylines = {
-  login: "don't have an account yet? sign up HERE.",
-  register: "already have an account? sign in HERE."
+  login: "Don't have an account yet? sign up HERE.",
+  register: "Already have an account? sign in HERE."
 };
 
 const authFns = {
@@ -123,7 +123,7 @@ function renderToggleForm() {
       <h2>${heading}</h2>
       <input type="text" id="username" placeholder="username"></input>
       <input type="password" id="password" placeholder="password"</input>
-      <button>submit</button>
+      <button>Submit</button>
       <div id="toggle_link"></div>
     </form>
   `);
