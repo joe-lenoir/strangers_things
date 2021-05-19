@@ -49,7 +49,6 @@ aside {
     margin: 5px;
 }
 
-
 #auth_form {
     display: flex;
     font-size: 15px;
@@ -73,8 +72,6 @@ aside {
     display: flex;
     margin-left: 20px;
 }
-
-
 
 #error-message {
     color: red;

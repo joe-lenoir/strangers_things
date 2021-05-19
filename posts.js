@@ -132,6 +132,7 @@ function buildPostElement(postObj) {
     <div id="willDeliver">Will deliver: ${postObj.willDeliver}</div>
     <button id="send-post-message">Send Message</button>
     <button id="delete-post">I posted this and want to delete it</button>
+    <button id="edit-post">I posted this and want to edit it</button>
     <div id="message"></div>
   </div>`;
 }
@@ -164,7 +165,7 @@ async function editPost(postObj, token) {
     .then((response) => response.json())
     .then((result) => {
       console.log(result);
-      //return result;
+      return result;
     })
     .catch(console.error);
 }
@@ -190,38 +191,33 @@ async function deletePost(postObj, token) {
     .catch(console.error);
 }
 
-$("#delete-post").click(function (event) {
-    console.log("so you want to delete a post eh?")
-    //deletePost();
-  });
+//haven't tried it this way yet
+// logoutButton.click(function () {
+//   localStorage.removeItem("token");
+//   localStorage.removeItem("currentUser");
+//   appendAuthForm();
+// });
 
-//have not tested this one yet, just pulled it from api docs for later use
-async function sendPostMessage(token) {
-  return fetch(
-    "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts/POST_ID/messages",
-    //not sure if that /POST_ID/messages is what is needed or is a placeholder from the api docs
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        message: {
-          content: "Do you still have this? Would you take $10 less?",
-        },
-      }),
-    }
-  )
-    .then((response) => response.json())
-    .then((result) => {
-      console.log(result);
-      //return result;
-    })
-    .catch(console.error);
-}
+$("#delete-post").submit(async (event) => {
+  event.preventDefault();
+  console.log("delete post request submitted");
 
-$("#send-post-message").click(function (event) {
-  console.log("sending message");
-  //sendPostMessage();
+  // const postObj = createPostObjFromForm();
+  // console.log(postObj);
+  // const response = await createPostAPI(postObj, localStorage.getItem("token"));
+  // if (response.success) {
+  //   $("#posts").prepend(buildPostElement(response.data.post));
+  //   $("#title").val("");
+  //   $("#description").val("");
+  //   $("#price").val("");
+  //   $("#location").val("");
+  //   $("#will-deliver").prop("checked", false); //see if that works
+  // } else {
+  //   $("#error-message").html("Sign in to create a post.");
+  // }
+
+  //add new post in response to state (the array of posts)
+  //re-render the array of posts in state
 });
+
+
