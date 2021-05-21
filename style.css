@@ -27,6 +27,11 @@ header {
     
 }
 
+section {
+    display: flex;
+    justify-content: center;
+}
+
 aside {
     display: flex;
     flex-direction: column;
@@ -96,3 +101,32 @@ aside {
     color: white;
     margin: 5px;
 }
+
+header h1 {
+    text-align: center;
+}
+
+.search {
+    width: 100vw;
+}
+
+/*why is this not centered?*/
+.search .search-form {
+    width: 20%;
+    margin: auto;
+
+    /*
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    */
+}
+
+
+.search .search-form #search-field {
+    flex: 0 1 70%;
+}
+
+
+

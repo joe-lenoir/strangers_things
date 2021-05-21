@@ -98,6 +98,24 @@ function loginUser(username, password) {
     .catch(console.error);
 }
 
+export async function fetchMe(token) {
+  try {
+    const response = await fetch(
+      "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/users/me",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const parsedJson = await response.json();
+    return parsedJson.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const authHeadlines = {
   login: "Sign in:",
   register: "Sign up:"

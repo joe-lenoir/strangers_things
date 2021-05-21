@@ -3,13 +3,13 @@
 //import {  } from "./app.js";
 //import {  } from "./auth.js";
 
-const allPosts = {
-  title: "example post title",
-  description: "example post description",
-  price: "$0.00",
-  location: "example post location",
-  willDeliver: null,
-};
+// const allPosts = {
+//   title: "example post title",
+//   description: "example post description",
+//   price: "$0.00",
+//   location: "example post location",
+//   willDeliver: null,
+// };
 
 $("#new-post-form").submit(async (event) => {
   event.preventDefault();
@@ -89,7 +89,7 @@ function getPosts() {
     .catch(console.error);
 }
 
-//ATTEMPT TO CHECK FOR USER TOKEN (WORK INTO getPosts ABOVE?)
+//ATTEMPT TO SET isAuthor key for posts (WORK INTO getPosts ABOVE?)
 // async function getPosts(token) {
 //   try {
 //     const response = await fetch(
@@ -146,7 +146,7 @@ function buildPostElement(postObj) {
 
 //bootstrap function that calls getPosts, stores posts in state, renders posts that are in state
 
-//have not tested this one yet, just pulled it from api docs for later use
+//have not tested this function yet, just pulled it from api docs for later use
 async function editPost(postObj, token) {
   return fetch(
     "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts/POST_ID",
@@ -170,7 +170,7 @@ async function editPost(postObj, token) {
     .catch(console.error);
 }
 
-//have not tested this one yet, just pulled it from api docs for later use
+//have not tested this function yet, just pulled it from api docs for later use
 async function deletePost(postObj, token) {
   return fetch(
     "https://strangers-things.herokuapp.com/api/2101-VPI-RM-WEB-PT/posts/POST_ID",
@@ -190,13 +190,6 @@ async function deletePost(postObj, token) {
     })
     .catch(console.error);
 }
-
-//haven't tried it this way yet
-// logoutButton.click(function () {
-//   localStorage.removeItem("token");
-//   localStorage.removeItem("currentUser");
-//   appendAuthForm();
-// });
 
 $("#delete-post").submit(async (event) => {
   event.preventDefault();
@@ -219,5 +212,3 @@ $("#delete-post").submit(async (event) => {
   //add new post in response to state (the array of posts)
   //re-render the array of posts in state
 });
-
-
