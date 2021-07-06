@@ -18,7 +18,7 @@ function isLoggedIn() {
   return token;
 }
 
-fetchMe;
+//fetchMe();
 
 export function appendAuthForm() {
   authForm.empty();
